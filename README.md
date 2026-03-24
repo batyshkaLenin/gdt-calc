@@ -1,42 +1,21 @@
 # gdt-calc
 
-Static Game Dev Tycoon score calculator.
+Game review score calculator for Game Dev Tycoon.
 
-## What this project is
+# [Want to open the calculator? Click here.](http://rollersteaam.github.io/gdt-calc/)
 
-This repository preserves a fan-made calculator for estimating:
+## Summary
 
-- game score
-- review score
-- target score for the next release
-- recommended slider positions
+This tool is designed to help you get high scores for every game you make. The way the game works is this - every game you make is compared with the last best game you've made so far. If your game score is higher than the previous then you will get a high review score. Therefore the best way to play this game is to make small increases in game score every time. If you find your current game score is higher than neccessary, it is a good idea to leave some bugs in so that beating this score won't be as hard.
 
-The original project was recovered from archived static pages. This version has been cleaned up to run as a simpler standalone site without Wayback-specific assets.
+## Additional Info and Backstory
 
-## What changed in this cleanup
+Since Cosmic Websites seemed to stop hosting this calculator, I decided to use the Wayback Machine and revive the website and host it on my own service.
 
-- removed archived analytics and broken asset references
-- removed the Bootstrap dependency that was only used for layout
-- switched game history persistence from cookies to `localStorage`
-- refreshed the page structure and improved mobile behavior
-- kept the existing formulas and calculator data intact
+For more info on how the game works [go to the wiki.](http://gamedevtycoon.wikia.com/) All credit for finding the formulas used in making this app goes to them. Way more credit goes to the man, the myth, the legend **Cosmic Websites** for originally creating the calculator and the general website, and R-SAAM Future Development for revising website design and re-hosting the website. Officially however, open source is the definitively superior way to continue the life of this project after 4 years of inactivity.
 
-## Run locally
+# Contribute! Improve this calculator yourself!
 
-Because this is a static site, you can open [index.html](/home/lenin/Downloads/gdt-calc-master/index.html) directly in a browser or serve the folder with any basic HTTP server.
+Forking this repo will put a copy of this project on your own GitHub account. You can then make changes to your copy, and create a pull request to this one. A pull request is submitting your updates to the calculator. If I accept the pull request, the changes will go live immediately and the calculator will work anew, marking you as a **Contributor** in this project.
 
-Example:
-
-```bash
-python3 -m http.server 8000
-```
-
-Then open `http://localhost:8000/`.
-
-## Data source and credit
-
-Credit for the formulas and reference data belongs to the Game Dev Tycoon community research around the original calculator and related strategy guides.
-
-Useful reference:
-
-- https://gamedevtycoon.fandom.com/wiki/Success_Guide
+Learning Git is easy, don't be afraid to try it if you have good knowledge of JS and want to improve this calculator.
