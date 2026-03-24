@@ -147,6 +147,15 @@
 		sliderTracks, sliderTabs;
 
 	var STORAGE_KEY = "gdt-calc-old-games";
+
+	function getPersistedGamesSnapshot() {
+		var data = [];
+		var startIndex = Math.max(0, oldGames.length - 8);
+
+		for (var i = startIndex; i < oldGames.length; i++) data.push(oldGames[i]);
+
+		return data;
+	}
 		
 	// previous games information
 	var prevTopic = -1, prevGenre1 = -1, prevGenre2 = -1, targetGameScore = 20, 
@@ -414,6 +423,7 @@
 				.append($('<td></td>').append($('<label></label>').html('Review Score')).css('width', '55px')))
 				.appendTo(oldGamesHeaderDiv);
 		
+		loadOldGames();
 		populateFields();
 		
 	});
@@ -794,6 +804,8 @@
 			"numTopScores": numTopScores,
 			"targetScore":	targetGameScore	
 		});
+
+		persistOldGames();
 				
 		gameNumber++;
 		
@@ -813,7 +825,11 @@
 		if (!raw) return null;
 
 		try {
-			return JSON.parse(raw);
+			var data = JSON.parse(raw);
+
+			if (!Array.isArray(data)) return null;
+
+			return data;
 		}
 		catch (error) {
 			return null;
@@ -830,14 +846,27 @@
 		}
 	}
 
+	function persistOldGames() {
+		return writeSavedGames(getPersistedGamesSnapshot());
+	}
+
+	function resetOldGamesState() {
+		$('#oldGamesTable tr').remove();
+		oldGames = [];
+		prevTopic = -1;
+		prevGenre1 = -1;
+		prevGenre2 = -1;
+		targetGameScore = 20;
+		gameNumber = 1;
+		topScore = 0;
+		numTopScores = 0;
+	}
+
 	// Save the last 8 games in local storage.
 	function saveOldGames() {
 		if (oldGames.length == 0) return;
 
-		var data = [];
-		for (var i = 0; i < 8 && i < oldGames.length; i++) data.unshift(oldGames[oldGames.length-i-1]);
-		
-		writeSavedGames(data);
+		persistOldGames();
 	}
 	
 	// Load old games from local storage.
@@ -845,7 +874,7 @@
 		var savedGames = readSavedGames();
 
 		if (!savedGames || savedGames.length === 0) return;
-		clearAllOldGames();
+		resetOldGamesState();
 		
 		oldGames = savedGames;
 		
@@ -889,6 +918,7 @@
 		
 		$('#oldGamesTable tr:first').remove();
 		oldGames.pop();
+		persistOldGames();
 		
 		gameNumber--;
 		prevTopic = oldGames[oldGames.length-1].topic;
@@ -902,9 +932,8 @@
 	}
 	
 	function clearAllOldGames() {
-		$('#oldGamesTable tr').remove();
-		oldGames = []; prevTopic = -1; prevGenre1 = -1; prevGenre2 = -1; 
-		targetGameScore = 20; gameNumber = 1; topScore = 0; numTopScores = 0;
+		resetOldGamesState();
+		persistOldGames();
 		populateFields();
 	}
 	

@@ -2,7 +2,7 @@
 	width: 100%;
 	max-width: 809px;
 	margin: 0 auto;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: "Open Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Tables */
@@ -24,7 +24,7 @@
 
 #GameDevCalculator select,
 #GameDevCalculator input {
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-family: "Open Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #calcFieldset {
