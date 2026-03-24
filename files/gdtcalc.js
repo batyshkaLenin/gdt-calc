@@ -1,16 +1,3 @@
-
-
-
-
-
-/*
-     FILE ARCHIVED ON 0:14:47 Oct 7, 2013 AND RETRIEVED FROM THE
-     INTERNET ARCHIVE ON 16:49:45 Mar 5, 2014.
-     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
-
-     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
-     SECTION 108(a)(3)).
-*/
 	// ---------------------------
 	//     Global Variables
 	// ---------------------------
@@ -137,7 +124,7 @@
 	
 	// ALL ELEMENTS
 		// divs
-	var calcDiv, notesDiv, slidersDiv, 
+	var calcDiv, notesDiv, slidersDiv, sliderDiv, 
 		// old games table
 		oldGamesTable, oldGamesDiv, oldGamesHeaderDiv, oldGamesTableDiv, 
 		calcfs, 
@@ -150,13 +137,16 @@
 		designInput, techInput, bugInput, 
 		// buttons
 		nextGameButton, saveGamesButton, loadGamesButton,
+		clearLastButton, clearAllButton,
 		// info labels score and review
 		gameScoreLabel, reviewScoreLabel, targetGameScoreLabel,
 		// info labels tech/design etc.
 		actualTDRatioLabel, targetTDRatioLabel, qualityLabel, salesModifierLabel,
 		platformGenreLabel, topicAudienceLabel, topicGenreLabel, 
 		// slider parts
-		sliderTracks, sliderTab; 
+		sliderTracks, sliderTabs;
+
+	var STORAGE_KEY = "gdt-calc-old-games";
 		
 	// previous games information
 	var prevTopic = -1, prevGenre1 = -1, prevGenre2 = -1, targetGameScore = 20, 
@@ -272,16 +262,16 @@
 		$('<tr></tr>').append(newEmployeeBox).append($('<label></label>').html('New Employee')).appendTo(checkboxTable).hover(function(){addToNotes('new employee')}, clearNotes);
 		
 		// Input box for amount of design points
-		designInput = $(document.createElement('input')).attr({type: 'text', size: '6', maxlength: '6'});
-		$(designInput).keyup(populateFields);
+		designInput = $(document.createElement('input')).attr({type: 'number', size: '6', maxlength: '6', min: '0', inputmode: 'numeric'});
+		$(designInput).on('input', populateFields);
 		
 		// Input box for amount of tech points
-		techInput = $(document.createElement('input')).attr({type: 'text', size: '6', maxlength: '6'});
-		$(techInput).keyup(populateFields);
+		techInput = $(document.createElement('input')).attr({type: 'number', size: '6', maxlength: '6', min: '0', inputmode: 'numeric'});
+		$(techInput).on('input', populateFields);
 		
 		// Input box for amount of bug points
-		bugInput = $(document.createElement('input')).attr({type: 'text', size: '6', maxlength: '6'});
-		$(bugInput).keyup(populateFields);
+		bugInput = $(document.createElement('input')).attr({type: 'number', size: '6', maxlength: '6', min: '0', inputmode: 'numeric'});
+		$(bugInput).on('input', populateFields);
 		
 		gameScoreLabel = $(document.createElement('label'));
 		reviewScoreLabel = $(document.createElement('label'));
@@ -342,23 +332,23 @@
 		
 		// next game button
 		nextGameButton = $(document.createElement('input'))
-							.attr({type: 'submit', value: 'Next Game', id: 'nextGameButton'})
+							.attr({type: 'button', value: 'Next Game', id: 'nextGameButton'})
 							.bind('click', gameFinished);
 		// save game button
 		saveGamesButton = $(document.createElement('input'))
-							.attr({type: 'submit', value: 'Save', id: 'saveGamesButton'})
+							.attr({type: 'button', value: 'Save', id: 'saveGamesButton'})
 							.bind('click', saveOldGames);
 		// load game button
 		loadGamesButton = $(document.createElement('input'))
-							.attr({type: 'submit', value: 'Load', id: 'loadGamesButton'})
+							.attr({type: 'button', value: 'Load', id: 'loadGamesButton'})
 							.bind('click', loadOldGames);
 		// save game button
 		clearLastButton = $(document.createElement('input'))
-							.attr({type: 'submit', value: 'Clear Last', id: 'clearLastButton'})
+							.attr({type: 'button', value: 'Clear Last', id: 'clearLastButton'})
 							.bind('click', clearLastOldGame);
 		// load game button
 		clearAllButton = $(document.createElement('input'))
-							.attr({type: 'submit', value: 'Clear All', id: 'clearAllButton'})
+							.attr({type: 'button', value: 'Clear All', id: 'clearAllButton'})
 							.bind('click', clearAllOldGames);
 							
 		// put buttons in table
@@ -740,6 +730,7 @@
 	function gameFinished() {			
 		// update target game score if needed
 		if (newTopScoreSet) {
+			var topScoreDelta;
 			// calc top score delta
 			if (topScore == 0) {
 				topScoreDelta = gameScore - 20;
@@ -809,22 +800,54 @@
 		populateFields();
 	}
 	
-	// Save all the old games as a cookie
+	function readSavedGames() {
+		var raw;
+
+		try {
+			raw = window.localStorage.getItem(STORAGE_KEY);
+		}
+		catch (error) {
+			return null;
+		}
+
+		if (!raw) return null;
+
+		try {
+			return JSON.parse(raw);
+		}
+		catch (error) {
+			return null;
+		}
+	}
+
+	function writeSavedGames(data) {
+		try {
+			window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+			return true;
+		}
+		catch (error) {
+			return false;
+		}
+	}
+
+	// Save the last 8 games in local storage.
 	function saveOldGames() {
 		if (oldGames.length == 0) return;
-		$.removeCookie("oldGames");
+
 		var data = [];
 		for (var i = 0; i < 8 && i < oldGames.length; i++) data.unshift(oldGames[oldGames.length-i-1]);
 		
-		$.cookie("oldGames", JSON.stringify(data), {expires: 45});
+		writeSavedGames(data);
 	}
 	
-	// load old games from cookie 
+	// Load old games from local storage.
 	function loadOldGames() {
-		if ($.cookie("oldGames") == undefined) return;
+		var savedGames = readSavedGames();
+
+		if (!savedGames || savedGames.length === 0) return;
 		clearAllOldGames();
 		
-		oldGames = JSON.parse($.cookie("oldGames"));
+		oldGames = savedGames;
 		
 		for (var i = 0; i < oldGames.length; i++) {
 			$('<tr></tr>')
@@ -907,8 +930,8 @@
 		{
 			case 'app info':
 				notesDiv.append($('<p style="font-weight: bold">Game Dev Tycoon Calculator</p>' +
-					'<p>Made by <a href="/web/20131007001447/http://www.cosmicwebsites.co.uk" target="_blank">Cosmic Websites</a>.</p>' +
-					'<p>For more info on how to use this app go to <a href="/web/20131007001447/http://gamedevtycoon.wikia.com/wiki/Success_Guide" target="_blank">' +
+					'<p>Originally made by Cosmic Websites and preserved by the community.</p>' +
+					'<p>For more info on how to use this app go to <a href="https://gamedevtycoon.fandom.com/wiki/Success_Guide" target="_blank" rel="noreferrer">' +
 					'the wiki</a>. Full credit for discovering the formulas used here goes to them.</p>'));
 				break;
 				
@@ -1005,11 +1028,11 @@
 				break;
 			case 'save old games':
 				notesDiv.append($('<p style="font-weight: bold">Save Games List</p>' +
-					'<p>Stores the last 8 games in your games list on your computer as a cookie.</p>'));
+					'<p>Stores the last 8 games in your browser using local storage.</p>'));
 				break;
 			case 'load old games':
 				notesDiv.append($('<p style="font-weight: bold">Load Games List</p>' +
-					'<p>Load the last games list saved to your computer.</p>'));
+					'<p>Load the last games list saved in your browser.</p>'));
 				break;
 		}
 	}

@@ -1,0 +1,223 @@
+:root {
+  --page-bg: #f5edd8;
+  --panel-bg: #ffd04f;
+  --panel-strong: #ff8400;
+  --panel-soft: #fff1b8;
+  --text-main: #2a2113;
+  --text-muted: #6f5a33;
+  --shadow: 0 18px 40px rgba(95, 63, 9, 0.16);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --font-sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at top left, rgba(255, 196, 84, 0.55), transparent 28%),
+    linear-gradient(180deg, #fff7df 0%, var(--page-bg) 100%);
+  color: var(--text-main);
+  margin: 0;
+  border: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--font-sans);
+}
+
+body {
+  line-height: 1.5;
+}
+
+a {
+  color: #8f2d00;
+}
+
+.page-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.hero-panel,
+.panel,
+.calculator-panel {
+  background: var(--panel-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.hero-panel {
+  padding: 32px;
+  margin-bottom: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, #ffb325, #ffd04f 58%, #ffe79f);
+}
+
+.hero-panel h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.hero-panel p {
+  max-width: 760px;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.panel,
+.calculator-panel {
+  padding: 22px 24px;
+  margin-top: 18px;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+}
+
+.panel p {
+  margin: 10px 0 0;
+}
+
+.panel-note {
+  background: var(--panel-soft);
+}
+
+.comments-panel {
+  margin-bottom: 16px;
+}
+
+.repo-ribbon {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(42, 33, 19, 0.92);
+  color: #fff7df;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(42, 33, 19, 0.2);
+}
+
+.repo-ribbon span {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* -----------------
+    Comments css
+   ----------------- */
+   
+#HCB_comment_box textarea {
+  /* add any custom CSS for the comment box here. */
+  
+}
+
+/* the entire html comment box container. applies to everything */
+#HCB_comment_box {
+  font-family: var(--font-sans);
+  color: #000000;
+  background-color: transparent;
+  margin: 0;
+}
+
+#HCB_comment_box p.error {
+  border: 1px solid red;
+  background-color: #fee;
+}
+
+.hcb-mod b {
+    color:#DD3344;
+}
+
+#HCB_comment_box textarea, #HCB_comment_box input.text {
+  border-top: 1px solid #e4e4e4;
+  border-left: 1px solid #e4e4e4;
+  border-bottom: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+}
+
+#HCB_comment_box .hcb-wrapper-half {
+    display:block;
+    width:50%;
+    float:left;
+}
+#HCB_comment_box .hcb-wrapper {
+    clear:both;
+}
+#HCB_comment_box input.text {
+    display:block;
+    width:97%;
+}
+/* the submit button */
+#HCB_comment_box input.submit {
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-bottom: 1px solid #888;
+  border-right: 1px solid #888;
+  background-color: #ccc;
+  color: #666;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#HCB_comment_box span.home-desc {
+  font-size:10px;
+  opacity:0.4;
+}
+
+/* the individual comment display containers */
+#HCB_comment_box div.comment {
+  border-bottom:1px dotted #eee;
+  margin-bottom:5px;
+}
+
+/* the moderator message */
+.hcb-mod  i{
+  color:darkblue;
+}
+
+/* next, prev, ok and x link style */
+.hcb-link {
+  color:blue;
+  text-decoration:underline;
+}
+
+@media (max-width: 860px) {
+  .page-shell {
+    padding: 88px 14px 32px;
+  }
+
+  .hero-panel,
+  .panel,
+  .calculator-panel {
+    border-radius: var(--radius-md);
+  }
+
+  .hero-panel,
+  .panel,
+  .calculator-panel {
+    padding: 18px;
+  }
+
+  .repo-ribbon {
+    top: 10px;
+    right: 10px;
+  }
+}

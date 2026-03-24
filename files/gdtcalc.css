@@ -1,8 +1,8 @@
 #GameDevCalculator {
-	width: 809px;
-	margin: 0px auto;
-	font-family: 'Open Sans', sans-serif;
-	/*font-family: Arial, Helvetica, sans-serif;*/
+	width: 100%;
+	max-width: 809px;
+	margin: 0 auto;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Tables */
@@ -24,13 +24,15 @@
 
 #GameDevCalculator select,
 #GameDevCalculator input {
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #calcFieldset {
-	width: 700px;
+	width: 100%;
+	max-width: 700px;
 	margin: 0 auto 5px auto;
 	background-color: #D1DBBD; /*D1DBBD*/
+	box-sizing: border-box;
 }
 
 #calcFieldset h2 {
@@ -77,6 +79,7 @@
 	width: 100px;
 	height: 80px;
 	margin: 0px 5px 0 50px;
+	cursor: pointer;
 }
 
 #clearLastButton,
@@ -84,11 +87,13 @@
 	width: 80px;
 	height: 30px;
 	margin: 0px 5px;
+	cursor: pointer;
 }
 
 #loadGamesButton,
 #saveGamesButton {
 	height: 30px;
+	cursor: pointer;
 }
 
 /* notes Div css */
@@ -193,4 +198,80 @@
 
 #oldGamesTable tr:last-child td {
 	border-bottom: 1px solid black;
+}
+
+@media (max-width: 860px) {
+	#GameDevCalculator table {
+		width: 100%;
+	}
+
+	#checkboxDiv,
+	#selectboxDiv,
+	#infoDiv,
+	#inputboxDiv,
+	#buttonsDiv,
+	#notesDiv,
+	#sliderDiv {
+		float: none;
+		width: auto;
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	#selectboxDiv,
+	#inputboxDiv,
+	#infoDiv,
+	#buttonsDiv {
+		margin-top: 12px;
+	}
+
+	#notesDiv {
+		width: auto;
+		height: auto;
+		min-height: 120px;
+	}
+
+	#sliderDiv {
+		width: 292px;
+		margin: 12px auto;
+	}
+
+	#nextGameButton {
+		width: 100%;
+		max-width: 220px;
+		height: 50px;
+		margin: 10px 0 0;
+	}
+
+	#clearLastButton,
+	#clearAllButton,
+	#loadGamesButton,
+	#saveGamesButton {
+		width: 100%;
+	}
+
+	#oldGamesDiv {
+		overflow-x: auto;
+	}
+}
+
+@media (max-width: 640px) {
+	#calcFieldset td {
+		display: block;
+		width: auto !important;
+		padding: 4px 6px;
+		text-align: left !important;
+	}
+
+	#calcFieldset label,
+	#calcFieldset select,
+	#calcFieldset input {
+		display: block;
+		max-width: 100%;
+	}
+
+	#oldGamesTableHeader td,
+	#oldGamesTable td {
+		display: table-cell;
+	}
 }
